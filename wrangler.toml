@@ -1,0 +1,38 @@
+name = "memoize-store"
+main = "src/index.js"
+compatibility_date = "2024-12-15"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "memoize-store-production"
+
+[env.development]
+name = "memoize-store-development"
+
+# KV Namespaces for data storage
+[[kv_namespaces]]
+binding = "USERS_KV"
+id = "users_kv_id"
+preview_id = "users_kv_preview_id"
+
+[[kv_namespaces]]
+binding = "DECKS_KV"
+id = "decks_kv_id"
+preview_id = "decks_kv_preview_id"
+
+[[kv_namespaces]]
+binding = "CARDS_KV"
+id = "cards_kv_id"
+preview_id = "cards_kv_preview_id"
+
+[[kv_namespaces]]
+binding = "SESSIONS_KV"
+id = "sessions_kv_id"
+preview_id = "sessions_kv_preview_id"
+
+# Environment variables (configure these before deploying)
+[vars]
+GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_SECRET = ""
+GOOGLE_REDIRECT_URI = ""
+API_BASE_URL = ""

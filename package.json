@@ -1,0 +1,55 @@
+{
+  "name": "@the-memoize-project/store",
+  "version": "0.1.0",
+  "description": "Memoize Store: Backend API for The Memoize Project. A lightweight, zero-dependency API built on Cloudflare Workers with KV storage for flashcard management.",
+  "keywords": [
+    "api",
+    "backend",
+    "cloudflare-workers",
+    "edge-computing",
+    "kv-storage",
+    "flashcards",
+    "memoize",
+    "memoize-store",
+    "rest-api",
+    "oauth",
+    "google-auth",
+    "zero-dependencies",
+    "lightweight",
+    "typescript",
+    "javascript"
+  ],
+  "author": "The Memoize Project Contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/the-memoize-project/store#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-memoize-project/store.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the-memoize-project/store/issues"
+  },
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest --coverage",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.8",
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@vitest/coverage-v8": "4.0.15",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15",
+    "wrangler": "^3.94.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
