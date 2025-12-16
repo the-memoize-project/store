@@ -16,16 +16,9 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@auth": ["./src/auth/index.js"],
       "@auth/*": ["./src/auth/*"],
-      "@cards": ["./src/cards/index.js"],
       "@cards/*": ["./src/cards/*"],
-      "@decks": ["./src/decks/index.js"],
-      "@decks/*": ["./src/decks/*"],
-      "@middleware": ["./packages/middleware/index.js"],
-      "@middleware/*": ["./packages/middleware/*"],
-      "@utils": ["./packages/utils/index.js"],
-      "@utils/*": ["./packages/utils/*"]
+      "@decks/*": ["./src/decks/*"]
     }
   },
   "include": ["src/**/*", "packages/**/*"],
