@@ -1,1 +1,1 @@
-export * from "./crud.js";
+// Decks module - implementation in src/decks

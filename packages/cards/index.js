@@ -1,1 +1,1 @@
-export * from "./crud.js";
+// Cards module - implementation in src/cards

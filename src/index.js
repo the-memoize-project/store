@@ -4,9 +4,9 @@
  */
 
 import router from "@the-memoize-project/router/worker";
-import { handleOAuthCallback, validateGoogleToken, logout } from "../packages/auth/index.js";
-import { listDecks, getDeck, createDeck, updateDeck, deleteDeck } from "../packages/decks/index.js";
-import { listCards, getCard, createCard, updateCard, deleteCard } from "../packages/cards/index.js";
+import { handleOAuthCallback, validateGoogleToken, logout } from "./auth/index.js";
+import { listDecks, getDeck, createDeck, updateDeck, deleteDeck } from "./decks/index.js";
+import { listCards, getCard, createCard, updateCard, deleteCard } from "./cards/index.js";
 import { requireAuth } from "../packages/middleware/index.js";
 import { corsPreflightResponse, error } from "../packages/utils/index.js";
 
