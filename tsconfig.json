@@ -13,7 +13,20 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@auth": ["./src/auth/index.js"],
+      "@auth/*": ["./src/auth/*"],
+      "@cards": ["./src/cards/index.js"],
+      "@cards/*": ["./src/cards/*"],
+      "@decks": ["./src/decks/index.js"],
+      "@decks/*": ["./src/decks/*"],
+      "@middleware": ["./packages/middleware/index.js"],
+      "@middleware/*": ["./packages/middleware/*"],
+      "@utils": ["./packages/utils/index.js"],
+      "@utils/*": ["./packages/utils/*"]
+    }
   },
   "include": ["src/**/*", "packages/**/*"],
   "exclude": ["node_modules", "dist", ".wrangler"]
