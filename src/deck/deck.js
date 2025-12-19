@@ -68,7 +68,7 @@ const Deck = {
       .run();
 
     return success
-      ? { data: { id, name, description, created_at, user_id } }
+      ? { data: true }
       : { error: "Deck not found or not authorized" }
   },
 

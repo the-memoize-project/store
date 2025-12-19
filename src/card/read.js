@@ -1,4 +1,4 @@
-import router, { headers, params, query } from "@the-memoize-project/router";
+import router, { args, headers, params } from "@the-memoize-project/router";
 import Google from "./google";
 import init from "./init";
 import Card from "./card";
@@ -6,8 +6,8 @@ import Card from "./card";
 router.get("/card", async () => {
   try {
     const user = await Google.me(headers.authorization);
-    const deck_id = query.deck_id || null;
-    const result = await Card.list(user, deck_id);
+    const deck = { id: args.deck };
+    const result = await Card.list(deck, user);
     const body = JSON.stringify(result);
     return new Response(body, init);
   } catch (error) {
