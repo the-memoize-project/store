@@ -20,6 +20,7 @@
       "@card": ["./src/card/*"],
       "@deck": ["./src/deck/*"],
       "@env": ["./packages/env/*"],
+      "@id": ["./packages/id/*"],
       "@result": ["./packages/result/*"]
     }
   },

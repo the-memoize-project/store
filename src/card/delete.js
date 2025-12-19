@@ -6,21 +6,11 @@ import Card from "./card";
 router.delete("/card/:id", async () => {
   try {
     const user = await Google.me(headers.authorization);
-    await Card.delete(params.id, user.key);
-    return new Response(JSON.stringify({ success: true }), init);
+    const card = { ...params };
+    const result = await Card.delete(card, user);
+    const body = JSON.stringify(result);
+    return new Response(body, init);
   } catch (error) {
-    console.error("Error deleting card:", error);
-
-    if (error.message?.includes("not found")) {
-      return new Response(
-        JSON.stringify({ error: "Card not found" }),
-        { ...init, status: 404 }
-      );
-    }
-
-    return new Response(
-      JSON.stringify({ error: error.message || "Internal server error" }),
-      { ...init, status: error.message?.includes("not authorized") ? 401 : 500 }
-    );
+    return new Response(error.message, { ...init, status: 500 });
   }
 });

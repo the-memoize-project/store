@@ -1,14 +1,10 @@
 import env from "@env";
+import Id from '@id';
 
 const Card = {
-  /**
-   * Create a new card
-   * @param {Object} card - Card object with all required fields
-   * @returns {Promise<Object>} Created card
-   */
-  async create(card) {
+  async create(card, user) {
+    const id = Id.new();
     const {
-      id,
       front,
       back,
       state,
@@ -19,11 +15,11 @@ const Card = {
       reps,
       lapses,
       deck_id,
-      user_id,
     } = card;
     const created_at = Date.now();
+    const user_id = user.id;
 
-    const result = await env.DB.prepare(
+    const { success } = await env.DB.prepare(
       `INSERT INTO card (
         id, front, back, state, stability, difficulty, due, last_review,
         reps, lapses, created_at, deck_id, user_id
@@ -47,50 +43,29 @@ const Card = {
       )
       .run();
 
-    if (!result.success) {
-      throw new Error("Failed to create card");
-    }
-
-    return {
-      id,
-      front,
-      back,
-      state,
-      stability,
-      difficulty,
-      due,
-      last_review,
-      reps: reps ?? 0,
-      lapses: lapses ?? 0,
-      created_at,
-      deck_id,
-      user_id,
-    };
+    return success
+      ? { data: { id, front, back, state, stability, difficulty, due, last_review, reps: reps ?? 0, lapses: lapses ?? 0, created_at, deck_id, user_id } }
+      : { error: "Failed to create card" }
   },
 
-  /**
-   * Get a single card by ID
-   * @param {string} id - Card ID
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<Object|null>} Card object or null
-   */
-  async getById(id, user_id) {
-    const result = await env.DB.prepare(
+  async get(card, user) {
+    const id = card.id;
+    const user_id = user.id;
+
+    const data = await env.DB.prepare(
       `SELECT * FROM card WHERE id = ? AND user_id = ?`
     )
       .bind(id, user_id)
       .first();
 
-    return result;
+    return data
+      ? { data }
+      : { error: "Failed to get card" }
   },
 
-  /**
-   * Get all cards for a user
-   * @param {string} user_id - User ID
-   * @param {string|null} deck_id - Optional deck_id to filter by deck
-   * @returns {Promise<Array>} Array of cards
-   */
-  async listByUser(user_id, deck_id = null) {
+  async list(user, deck_id = null) {
+    const user_id = user.id;
+
     let query;
     let bindings;
 
@@ -102,19 +77,15 @@ const Card = {
       bindings = [user_id];
     }
 
-    const result = await env.DB.prepare(query).bind(...bindings).all();
+    const { results: data } = await env.DB.prepare(query).bind(...bindings).all();
 
-    return result.results || [];
+    return data
+      ? { data }
+      : { error: "Failed to list card" }
   },
 
-  /**
-   * Update an existing card
-   * @param {string} id - Card ID
-   * @param {Object} updates - Fields to update
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<Object>} Updated card
-   */
-  async update(id, updates, user_id) {
+  async update(card, user) {
+    const id = Id.new();
     const {
       front,
       back,
@@ -125,9 +96,10 @@ const Card = {
       last_review,
       reps,
       lapses,
-    } = updates;
+    } = card;
+    const user_id = user.id;
 
-    const result = await env.DB.prepare(
+    const { success } = await env.DB.prepare(
       `UPDATE card
        SET front = ?, back = ?, state = ?, stability = ?, difficulty = ?,
            due = ?, last_review = ?, reps = ?, lapses = ?
@@ -148,31 +120,24 @@ const Card = {
       )
       .run();
 
-    if (!result.success || result.meta.changes === 0) {
-      throw new Error("Card not found or not authorized");
-    }
-
-    return this.getById(id, user_id);
+    return success
+      ? { data: { id, front, back, state, stability, difficulty, due, last_review, reps, lapses, created_at, user_id } }
+      : { error: "Card not found or not authorized" }
   },
 
-  /**
-   * Delete a card by ID
-   * @param {string} id - Card ID
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<boolean>} Success status
-   */
-  async delete(id, user_id) {
-    const result = await env.DB.prepare(
+  async delete(card, user) {
+    const id = card.id;
+    const user_id = user.id;
+
+    const { success } = await env.DB.prepare(
       `DELETE FROM card WHERE id = ? AND user_id = ?`
     )
       .bind(id, user_id)
       .run();
 
-    if (!result.success || result.meta.changes === 0) {
-      throw new Error("Card not found or not authorized");
-    }
-
-    return true;
+    return success
+      ? { data: true }
+      : { error: "Card not found or not authorized" }
   },
 };
 

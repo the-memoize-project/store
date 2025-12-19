@@ -1,37 +1,30 @@
 import env from "@env";
+import Id from '@id';
 
 const Deck = {
-  /**
-   * Create a new deck
-   * @param {Object} deck - Deck object with id, name, description, user_id
-   * @returns {Promise<Object>} Created deck
-   */
-  async create(deck) {
-    const { id, name, description, user_id } = deck;
+  async create(deck, user) {
+    const id = Id.new();
+    const { name, description } = deck;
     const created_at = Date.now();
+    const user_id = user.id;
 
-    const result = await env.DB.prepare(
+    const { success } = await env.DB.prepare(
       `INSERT INTO deck (id, name, description, created_at, user_id)
        VALUES (?, ?, ?, ?, ?)`
     )
       .bind(id, name, description, created_at, user_id)
       .run();
 
-    if (!result.success) {
-      throw new Error("Failed to create deck");
-    }
-
-    return { id, name, description, created_at, user_id };
+    return success
+      ? { data: { id, name, description, created_at, user_id } }
+      : { error: "Failed to create deck" }
   },
 
-  /**
-   * Get a single deck by ID
-   * @param {string} id - Deck ID
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<Object|null>} Deck object or null
-   */
-  async getById(id, user_id) {
-    const result = await env.DB.prepare(
+  async get(deck, user) {
+    const id = deck.id;
+    const user_id = user.id;
+
+    const data = await env.DB.prepare(
       `SELECT id, name, description, created_at, user_id
        FROM deck
        WHERE id = ? AND user_id = ?`
@@ -39,16 +32,15 @@ const Deck = {
       .bind(id, user_id)
       .first();
 
-    return result;
+    return data
+      ? { data }
+      : { error: "Failed to get deck" }
   },
 
-  /**
-   * Get all decks for a user
-   * @param {string} user_id - User ID
-   * @returns {Promise<Array>} Array of decks
-   */
-  async listByUser(user_id) {
-    const result = await env.DB.prepare(
+  async list(user) {
+    const user_id = user.id;
+
+    const { results: data } = await env.DB.prepare(
       `SELECT id, name, description, created_at, user_id
        FROM deck
        WHERE user_id = ?
@@ -57,20 +49,17 @@ const Deck = {
       .bind(user_id)
       .all();
 
-    return result.results || [];
+    return data
+      ? { data }
+      : { error: "Failed to list deck" }
   },
 
-  /**
-   * Update an existing deck
-   * @param {string} id - Deck ID
-   * @param {Object} updates - Fields to update (name, description)
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<Object>} Updated deck
-   */
-  async update(id, updates, user_id) {
-    const { name, description } = updates;
+  async update(deck, user) {
+    const id = Id.new();
+    const { name, description } = deck;
+    const user_id = user.id;
 
-    const result = await env.DB.prepare(
+    const { success } = await env.DB.prepare(
       `UPDATE deck
        SET name = ?, description = ?
        WHERE id = ? AND user_id = ?`
@@ -78,31 +67,24 @@ const Deck = {
       .bind(name, description, id, user_id)
       .run();
 
-    if (!result.success || result.meta.changes === 0) {
-      throw new Error("Deck not found or not authorized");
-    }
-
-    return this.getById(id, user_id);
+    return success
+      ? { data: { id, name, description, created_at, user_id } }
+      : { error: "Deck not found or not authorized" }
   },
 
-  /**
-   * Delete a deck by ID
-   * @param {string} id - Deck ID
-   * @param {string} user_id - User ID for authorization
-   * @returns {Promise<boolean>} Success status
-   */
-  async delete(id, user_id) {
-    const result = await env.DB.prepare(
+  async delete(deck, user) {
+    const id = deck.id;
+    const user_id = user.id;
+
+    const { success } = await env.DB.prepare(
       `DELETE FROM deck WHERE id = ? AND user_id = ?`
     )
       .bind(id, user_id)
       .run();
 
-    if (!result.success || result.meta.changes === 0) {
-      throw new Error("Deck not found or not authorized");
-    }
-
-    return true;
+    return success
+      ? { data: true }
+      : { error: "Deck not found or not authorized" }
   },
 };
 

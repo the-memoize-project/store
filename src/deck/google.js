@@ -9,7 +9,7 @@ class Google {
     })
       .then((response) => response.json())
       .then((json) => ({
-        key: json.sub
+        id: json.sub
       }));
 
     return user;
