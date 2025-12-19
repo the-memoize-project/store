@@ -1,3 +1,4 @@
-import "./delete"
-import "./read"
-import "./upsert"
+import "./create";
+import "./read";
+import "./update";
+import "./delete";
