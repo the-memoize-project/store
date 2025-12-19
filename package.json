@@ -47,9 +47,12 @@
     "lint-staged": "^16.2.7",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15",
-    "wrangler": "^3.94.0"
+    "wrangler": "^4.56.0"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@the-memoize-project/router": "^0.2.0"
   }
 }

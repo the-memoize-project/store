@@ -1,7 +1,7 @@
 import env from "@env";
 
 class Google {
-  static async authorization(code) {
+  static async signIn(code) {
     const accessToken = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
@@ -18,21 +18,7 @@ class Google {
       .then((response) => response.json())
       .then((json) => json.access_token);
 
-    const user = await fetch("https://openidconnect.googleapis.com/v1/userinfo", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => ({
-        accessToken,
-        avatarUrl: json.picture,
-        email: json.email,
-        key: json.sub,
-        name: json.name,
-      }));
-
-    return user;
+    return { accessToken };
   }
 }
 

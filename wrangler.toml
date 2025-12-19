@@ -8,16 +8,12 @@ command = ""
 watch_dir = ["src", "packages"]
 
 [[kv_namespaces]]
-binding = "ACCOUNT"
-id = ""
-
-[[kv_namespaces]]
 binding = "DECK"
-id = ""
+id = "dbdafa7aadb544f68c6ee70b97b76cd1"
 
 [[kv_namespaces]]
 binding = "CARD"
-id = ""
+id = "e6542a45fa2d4ac0bc9d36cd4eb62f38"
 
 [vars]
 GOOGLE_CLIENT_ID = "1028165377413-sf6qst1qh8pc27ba8qt089eist9am7fb.apps.googleusercontent.com"
