@@ -1,5 +1,5 @@
 import env from "@env";
-import router from "@the-memoize-project/router";
+import router from "@the-memoize-project/router/worker";
 
 import "@auth";
 import "@card";

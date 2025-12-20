@@ -1,4 +1,4 @@
-import router, { args, headers, params } from "@the-memoize-project/router";
+import router, { args, headers, params } from "@the-memoize-project/router/worker";
 import Google from "./google";
 import init from "./init";
 import Card from "./card";

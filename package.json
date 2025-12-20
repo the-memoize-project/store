@@ -35,7 +35,8 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "vitest --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migration": "wrangler d1 migrations apply memoize"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
