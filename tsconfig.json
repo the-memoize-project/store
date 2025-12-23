@@ -19,9 +19,8 @@
       "@auth": ["./src/auth"],
       "@card": ["./src/card"],
       "@deck": ["./src/deck"],
-      "@env": ["./packages/env"],
-      "@id": ["./packages/id"],
-      "@result": ["./packages/result"]
+      "@env": ["./src/env"],
+      "@id": ["./src/id"]
     }
   },
   "include": ["src/**/*", "packages/**/*"],
