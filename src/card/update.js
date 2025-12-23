@@ -1,16 +1,15 @@
-import router, { body, headers, params } from "@the-memoize-project/router/worker";
-import Google from "./google";
+import router, { body, params } from "@the-memoize-project/router/worker";
 import init from "./init";
 import Card from "./card";
+import { me } from '@auth';
 
-router.put("/card/:id", async () => {
+router.put("/card/:id", me(async (user) => {
   try {
-    const user = await Google.me(headers.authorization);
     const card = { ...body, ...params };
     const result = await Card.update(card, user);
     const body = JSON.stringify(result);
     return new Response(body, init);
-  } catch (error) {
-    return new Response(error.message, { ...init, status: 500 });
+  } catch (_error) {
+    return new Response(null, { status: 500 });
   }
 });

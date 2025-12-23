@@ -1,8 +1,6 @@
-const env = {
-  handle(data) {
-    Object.assign(this, data);
-    return this;
-  },
+const env = (data) => {
+  Object.assign(env, data);
+  return env;
 };
 
 export default env;

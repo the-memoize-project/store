@@ -1,12 +1,15 @@
-import router, { headers } from "@the-memoize-project/router/worker";
-import Google from "./google";
-import init from './init'
+import { Google } from "@the-memoize-project/auth";
+import { headers } from '@the-memoize-project/router/worker'
 
-router.get("/auth/me", async () => {
+const me = async (next) => {
   try {
     const user = await Google.me(headers.authorization);
-    return Response(user, init);
-  } catch (error) {
-    return Response(error.maessage, 401);
+    return user?.id
+      ? next(user)
+      : new Response(null, { status: 401 });
+  } catch (_error) {
+    return new Response(null, { status: 500 });
   }
-});
+};
+
+export default me;

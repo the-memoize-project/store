@@ -1,16 +1,15 @@
-import router, { headers, params } from "@the-memoize-project/router/worker";
-import Google from "./google";
+import router, { params } from "@the-memoize-project/router/worker";
 import init from "./init";
 import Deck from "./deck";
+import { me } from '@auth';
 
-router.delete("/deck/:id", async () => {
+router.delete("/deck/:id", me(async (user) => {
   try {
-    const user = await Google.me(headers.authorization);
     const deck = { ...params };
     const result = await Deck.delete(deck, user);
     const body = JSON.stringify(result);
     return new Response(body, init);
-  } catch (error) {
-    return new Response(error.message, { ...init, status: 500 });
+  } catch (_error) {
+    return new Response(null, { status: 500 });
   }
 });

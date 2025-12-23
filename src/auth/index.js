@@ -1,2 +1,1 @@
-import "./me"
-import "./signIn"
+export { default as me } from './me'
