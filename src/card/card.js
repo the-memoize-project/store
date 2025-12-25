@@ -242,6 +242,41 @@ const Card = {
   },
 
   /**
+   * Deletes all cards in a deck.
+   *
+   * Removes all cards that belong to a specific deck and user.
+   * Used when deleting a deck to ensure all associated cards are removed.
+   *
+   * @async
+   * @param {DeckIdentifier} deck - Deck containing cards to delete
+   * @param {User} user - Authenticated user
+   * @returns {Promise<Result>} { data: true } on success, { error: string } on failure
+   *
+   * @example
+   * const { data, error } = await Card.deleteByDeck(
+   *   { id: 'deck_123' },
+   *   { id: 'user_123' }
+   * );
+   * if (data) {
+   *   console.log('All cards in deck deleted');
+   * }
+   */
+  async deleteByDeck(deck, user) {
+    const deck_id = deck.id;
+    const user_id = user.id;
+
+    const { success } = await env.DB.prepare(
+      `DELETE FROM card WHERE deck_id = ? AND user_id = ?`
+    )
+      .bind(deck_id, user_id)
+      .run();
+
+    return success
+      ? { data: true }
+      : { error: "Failed to delete cards" }
+  },
+
+  /**
    * Deletes a card.
    *
    * Only deletes if card belongs to authenticated user.
